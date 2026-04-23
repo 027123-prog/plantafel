@@ -1,0 +1,1883 @@
+﻿<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plantafel Werkstatt</title>
+  <style>
+    :root {
+      --line: #545454;
+      --text: #f5f5f5;
+      --muted: #cfcfcf;
+      --urlaub: #f1994d;
+      --krank: #d96fb5;
+      --baustelle: #ffffff;
+      --werkstatt: #f3ebb4;
+      --auto: #ec6d62;
+      --anhaenger: #c6473c;
+      --ungeklaert: #71c77f;
+      --schule: #9f7155;
+      --focus: #6db7ff;
+      --selection: rgba(109, 183, 255, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
+        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 24px 24px,
+        radial-gradient(circle at 12% 15%, #4a4a4a 0%, #2f2f2f 55%, #252525 100%);
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .app {
+      max-width: 1800px;
+      margin: 0 auto;
+      display: grid;
+      gap: 12px;
+    }
+
+    .panel {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      backdrop-filter: blur(2px);
+    }
+
+    .top-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .quick-help {
+      min-width: 220px;
+      max-width: 330px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 0.76rem;
+      line-height: 1.25;
+      color: #e8e8e8;
+    }
+
+    .quick-help strong {
+      display: block;
+      color: #ffcf93;
+      margin-bottom: 3px;
+      font-size: 0.78rem;
+    }
+
+    .week-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffbf72;
+      letter-spacing: 0.3px;
+    }
+
+    .board-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.16));
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    thead th {
+      background: rgba(255, 255, 255, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    th.staff-head,
+    td.staff-cell {
+      width: 150px;
+      min-width: 150px;
+      position: sticky;
+      left: 0;
+      z-index: 4;
+      background: #2b2b2b;
+    }
+
+    th.staff-head {
+      z-index: 6;
+    }
+
+    .day-head {
+      padding: 8px;
+      text-align: center;
+      line-height: 1.25;
+      font-size: 0.88rem;
+    }
+
+    .day-head .day {
+      font-weight: 700;
+      color: #f2f2f2;
+    }
+
+    .day-head .date {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    th.today-col-head {
+      background: rgba(255, 193, 94, 0.28);
+      box-shadow: inset 0 -2px 0 #ffbf72;
+    }
+
+    td.staff-cell {
+      padding: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      color: #efefef;
+      white-space: nowrap;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    td.slot {
+      padding: 6px;
+      height: 62px;
+      cursor: crosshair;
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative;
+    }
+
+    td.slot:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: -2px;
+    }
+
+    td.slot.selected-range {
+      background: var(--selection);
+    }
+
+    td.slot.resize-preview {
+      background: rgba(255, 146, 77, 0.18);
+    }
+
+    td.slot.today-col {
+      background: rgba(255, 191, 114, 0.09);
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 48px;
+    }
+
+    .card {
+      position: relative;
+      padding: 5px 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(0, 0, 0, 0.35);
+      font-size: 0.78rem;
+      line-height: 1.15;
+      color: #111;
+      font-weight: 600;
+      word-break: break-word;
+      cursor: pointer;
+    }
+
+    .card.selected-card {
+      outline: 2px solid #7ec4ff;
+      outline-offset: 1px;
+      box-shadow: 0 0 0 2px rgba(126, 196, 255, 0.25);
+    }
+
+    .card.join-left {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      margin-left: -6px;
+      padding-left: 14px;
+    }
+
+    .card.join-right {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-right: -6px;
+      padding-right: 14px;
+    }
+
+    .resize-handle {
+      position: absolute;
+      top: 1px;
+      bottom: 1px;
+      width: 10px;
+      opacity: 0;
+      transition: opacity 0.12s ease;
+      z-index: 3;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card:hover .resize-handle,
+    .card.selected-card .resize-handle {
+      opacity: 1;
+    }
+
+    .resize-handle.left {
+      left: -2px;
+      cursor: w-resize;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0));
+      border-radius: 5px 0 0 5px;
+    }
+
+    .resize-handle.right {
+      right: -2px;
+      cursor: e-resize;
+      background: linear-gradient(270deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0));
+      border-radius: 0 5px 5px 0;
+    }
+
+    .card.urlaub { background: var(--urlaub); }
+    .card.krank { background: var(--krank); }
+    .card.baustelle { background: var(--baustelle); }
+    .card.werkstatt {
+      background: var(--werkstatt);
+      font-weight: 700;
+      min-height: 24px;
+    }
+    .card.werkstattkunde {
+      background: var(--werkstatt);
+      font-weight: 700;
+    }
+    .card.auto { background: var(--auto); }
+    .card.anhaenger { background: var(--anhaenger); }
+    .card.ungeklaert { background: var(--ungeklaert); }
+    .card.schule { background: var(--schule); }
+
+    .auto-stack {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 6px;
+      min-height: 22px;
+    }
+
+    .auto-stack .card.auto,
+    .auto-stack .card.anhaenger {
+      width: auto;
+      max-width: 100%;
+      min-height: 20px;
+      border: 2px solid #ff2a2a;
+      border-radius: 0;
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      white-space: nowrap;
+      word-break: normal;
+      flex: 0 0 auto;
+    }
+
+    .auto-stack .card.anhaenger {
+      border-color: #df5a4e;
+    }
+
+    .resize-ghost {
+      position: absolute;
+      left: 6px;
+      right: 6px;
+      top: 6px;
+      min-height: 24px;
+      border-radius: 5px;
+      border: 1px dashed rgba(0, 0, 0, 0.55);
+      font-size: 0.78rem;
+      line-height: 1.15;
+      color: #111;
+      font-weight: 600;
+      padding: 5px 8px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      pointer-events: none;
+      z-index: 9;
+      opacity: 0.9;
+    }
+
+    .resize-ghost.join-left {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      left: 0;
+      padding-left: 14px;
+    }
+
+    .resize-ghost.join-right {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      right: 0;
+      padding-right: 14px;
+    }
+
+    .resize-ghost.baustelle { background: var(--baustelle); }
+    .resize-ghost.werkstatt { background: var(--werkstatt); }
+    .resize-ghost.werkstattkunde { background: var(--werkstatt); }
+    .resize-ghost.urlaub { background: var(--urlaub); }
+    .resize-ghost.krank { background: var(--krank); }
+    .resize-ghost.schule { background: var(--schule); }
+    .resize-ghost.auto { background: var(--auto); border-color: #ff2a2a; }
+    .resize-ghost.auto.anhaenger { background: var(--anhaenger); border-color: #da5f8a; }
+
+    .derived-note {
+      font-size: 0.68rem;
+      color: rgba(0, 0, 0, 0.75);
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    button,
+    select,
+    input,
+    textarea {
+      background: #f8f8f8;
+      color: #222;
+      border: 1px solid #a9a9a9;
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 0.9rem;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    button.primary {
+      background: #ffb15f;
+      border-color: #d98b3f;
+      color: #222;
+    }
+
+    button.danger {
+      background: #d66;
+      border-color: #b74c4c;
+      color: #fff;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: grid;
+      place-items: center;
+      z-index: 50;
+      padding: 14px;
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-card {
+      width: min(520px, 100%);
+      background: #f3f3f3;
+      color: #222;
+      border-radius: 12px;
+      border: 1px solid #bbb;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .meta {
+      font-size: 0.83rem;
+      color: #555;
+    }
+
+    .field {
+      display: grid;
+      gap: 5px;
+      font-size: 0.86rem;
+    }
+
+    .hidden-field {
+      display: none;
+    }
+
+    .field-inline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .choice-group {
+      border: 1px solid #c9c9c9;
+      border-radius: 10px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      margin-bottom: 8px;
+    }
+
+    .choice-group h3 {
+      margin: 0 0 7px;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(100px, 1fr));
+      gap: 8px;
+    }
+
+    .tile {
+      border: 1px solid rgba(0, 0, 0, 0.35);
+      border-radius: 8px;
+      min-height: 42px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #111;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 6px;
+      background: #fff;
+    }
+
+    .tile.baustelle { background: var(--baustelle); }
+    .tile.werkstatt { background: var(--werkstatt); }
+    .tile.werkstattkunde { background: var(--werkstatt); }
+    .tile.urlaub { background: var(--urlaub); }
+    .tile.schule { background: var(--schule); }
+    .tile.krank { background: var(--krank); }
+    .tile.auto { background: var(--auto); }
+    .tile.anhaenger { background: var(--anhaenger); }
+
+    @media (max-width: 960px) {
+      td.staff-cell,
+      th.staff-head {
+        width: 120px;
+        min-width: 120px;
+      }
+
+      .week-title {
+        width: 100%;
+        text-align: center;
+      }
+
+      .top-row {
+        justify-content: center;
+      }
+
+      .quick-help {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="panel top-row">
+      <div class="controls">
+        <button id="prevWeek">Vorherige Woche</button>
+        <button id="thisWeek">Diese Woche</button>
+        <button id="nextWeek">Naechste Woche</button>
+      </div>
+      <div class="week-title" id="weekTitle">KW</div>
+      <div class="controls">
+        <button id="printBoard">Drucken</button>
+        <div class="quick-help" aria-label="Bedienung">
+          <strong>Bedienung</strong>
+          <div>Klick Karte: markieren, Entf: loeschen</div>
+          <div>Doppelklick Karte: bearbeiten</div>
+          <div>Drag ohne Strg: verschieben | mit Strg: kopieren</div>
+          <div>Leere Zelle klicken/ziehen: neuen Eintrag</div>
+          <div>Kartenrand links/rechts ziehen: tageweise aendern</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel board-wrap">
+      <table id="boardTable" aria-label="Plantafel"></table>
+    </section>
+  </div>
+
+  <div class="modal hidden" id="chooseModal" role="dialog" aria-modal="true" aria-labelledby="chooseTitle">
+    <div class="modal-card">
+      <h2 class="modal-title" id="chooseTitle">Was eintragen?</h2>
+      <div class="meta" id="chooseMeta"></div>
+      <div id="choiceGroups"></div>
+      <div class="modal-actions">
+        <button id="chooseCancel" type="button">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="entryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card" style="width:min(520px, 100%);">
+      <h2 class="modal-title" id="modalTitle">Eintrag</h2>
+      <div class="meta" id="modalMeta"></div>
+
+      <label class="field">
+        <span id="modalTextLabel">Text</span>
+        <input id="modalText" type="text" placeholder="Text" />
+      </label>
+
+      <div class="modal-actions">
+        <button id="modalDelete" class="danger" type="button">Loeschen</button>
+        <button id="modalBack" type="button">Zurueck</button>
+        <button id="modalSave" class="primary" type="button">Speichern</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = "plantafel-v3";
+      const DAY_NAMES = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+      const WEEKDAY_INDEX = [1, 2, 3, 4, 5, 6];
+      const MAX_AUTO_PER_DAY = 2;
+      const TODAY_ISO = toISODate(new Date());
+      const TRAILER_NAMES = new Set(["Flach", "Hoch", "Klein"]);
+
+      const CHOICES = [
+        { group: "Einsatz", type: "baustelle", label: "Baustelle", className: "baustelle", preset: "" },
+        { group: "Einsatz", type: "werkstatt", label: "Werkstatt", className: "werkstatt", preset: "" },
+        { group: "Einsatz", type: "werkstattkunde", label: "Fertigung", className: "werkstattkunde", preset: "" },
+        { group: "Einsatz", type: "urlaub", label: "Urlaub", className: "urlaub", preset: "Urlaub" },
+        { group: "Einsatz", type: "schule", label: "Schule", className: "schule", preset: "Schule" },
+        { group: "Einsatz", type: "krank", label: "Krank", className: "krank", preset: "Krank" },
+        { group: "Autos", type: "auto", label: "Sprinter Gr.", className: "auto", preset: "Sprinter Gr.", trailer: false },
+        { group: "Autos", type: "auto", label: "Sprinter Kl.", className: "auto", preset: "Sprinter Kl.", trailer: false },
+        { group: "Autos", type: "auto", label: "VITO", className: "auto", preset: "VITO", trailer: false },
+        { group: "Autos", type: "auto", label: "CITAN", className: "auto", preset: "CITAN", trailer: false },
+        { group: "Autos", type: "auto", label: "FORD", className: "auto", preset: "FORD", trailer: false },
+        { group: "Autos", type: "auto", label: "ALHAMBRA", className: "auto", preset: "ALHAMBRA", trailer: false },
+        { group: "Anhaenger", type: "auto", label: "Flach", className: "anhaenger", preset: "Flach", trailer: true },
+        { group: "Anhaenger", type: "auto", label: "Hoch", className: "anhaenger", preset: "Hoch", trailer: true },
+        { group: "Anhaenger", type: "auto", label: "Klein", className: "anhaenger", preset: "Klein", trailer: true }
+      ];
+
+      const defaultState = {
+        people: [
+          "MARTIN",
+          "LUDGER",
+          "STEPHAN",
+          "JANNEK",
+          "VARIS",
+          "DAVID",
+          "BAYAR",
+          "TORSTEN",
+          "FINIAN",
+          "NOAH",
+          "FRIEDRICH",
+          "JONATHAN",
+          "PATRICK",
+          "TIMO",
+          "GIOSUE",
+          "ANNA",
+          "HARALD",
+          "KAI",
+          "PRAKTIKANT"
+        ],
+        apprentices: ["TIMO", "GIOSUE", "ANNA", "HARALD", "KAI", "PRAKTIKANT"],
+        schoolPattern: {
+          TIMO: [2],
+          GIOSUE: [4],
+          ANNA: [1],
+          HARALD: [3],
+          KAI: [2],
+          PRAKTIKANT: [1]
+        },
+        entries: []
+      };
+
+      const els = {
+        prevWeek: document.getElementById("prevWeek"),
+        thisWeek: document.getElementById("thisWeek"),
+        nextWeek: document.getElementById("nextWeek"),
+        weekTitle: document.getElementById("weekTitle"),
+        printBoard: document.getElementById("printBoard"),
+        boardTable: document.getElementById("boardTable"),
+        chooseModal: document.getElementById("chooseModal"),
+        chooseMeta: document.getElementById("chooseMeta"),
+        choiceGroups: document.getElementById("choiceGroups"),
+        chooseCancel: document.getElementById("chooseCancel"),
+        entryModal: document.getElementById("entryModal"),
+        modalTitle: document.getElementById("modalTitle"),
+        modalMeta: document.getElementById("modalMeta"),
+        modalTextLabel: document.getElementById("modalTextLabel"),
+        modalText: document.getElementById("modalText"),
+        modalDelete: document.getElementById("modalDelete"),
+        modalBack: document.getElementById("modalBack"),
+        modalSave: document.getElementById("modalSave")
+      };
+
+      let state = loadState();
+      let currentMonday = getMonday(new Date());
+      let activeWeekDates = [];
+
+      let dragSelection = null;
+      let dragEntryId = null;
+      let modalState = null;
+      let chooseContext = null;
+      let selectedEntryId = null;
+      let selectedCardEl = null;
+      let resizeState = null;
+
+      init();
+
+      function init() {
+        renderChoiceGroups();
+        wireEvents();
+        seedDemoWeekIfEmpty();
+        renderAll();
+      }
+
+      function renderChoiceGroups() {
+        const groups = ["Einsatz", "Autos", "Anhaenger"];
+        els.choiceGroups.innerHTML = "";
+
+        for (const groupName of groups) {
+          const wrap = document.createElement("section");
+          wrap.className = "choice-group";
+
+          const h = document.createElement("h3");
+          h.textContent = groupName;
+          wrap.appendChild(h);
+
+          const grid = document.createElement("div");
+          grid.className = "tile-grid";
+
+          for (const choice of CHOICES.filter((x) => x.group === groupName)) {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "tile " + choice.className;
+            btn.textContent = choice.label;
+            btn.addEventListener("click", () => onChooseTile(choice));
+            grid.appendChild(btn);
+          }
+
+          wrap.appendChild(grid);
+          els.choiceGroups.appendChild(wrap);
+        }
+      }
+
+      function wireEvents() {
+        els.prevWeek.addEventListener("click", () => {
+          currentMonday = addDays(currentMonday, -7);
+          renderAll();
+        });
+
+        els.thisWeek.addEventListener("click", () => {
+          currentMonday = getMonday(new Date());
+          renderAll();
+        });
+
+        els.nextWeek.addEventListener("click", () => {
+          currentMonday = addDays(currentMonday, 7);
+          renderAll();
+        });
+
+        els.printBoard.addEventListener("click", () => window.print());
+
+        document.addEventListener("mouseup", onGlobalMouseUp);
+
+        els.chooseCancel.addEventListener("click", closeChooseModal);
+        els.modalBack.addEventListener("click", onModalBack);
+        els.modalSave.addEventListener("click", saveModal);
+        els.modalDelete.addEventListener("click", deleteModalEntry);
+
+        els.chooseModal.addEventListener("click", (ev) => {
+          if (ev.target === els.chooseModal) {
+            closeChooseModal();
+          }
+        });
+
+        els.entryModal.addEventListener("click", (ev) => {
+          if (ev.target === els.entryModal) {
+            closeModal();
+          }
+        });
+
+        document.addEventListener("keydown", (ev) => {
+          if (ev.key === "Delete" || ev.key === "Backspace") {
+            if (isTypingTarget(ev.target)) return;
+            if (!els.entryModal.classList.contains("hidden")) return;
+            if (!els.chooseModal.classList.contains("hidden")) return;
+            if (!selectedEntryId) return;
+            ev.preventDefault();
+            deleteEntryById(selectedEntryId);
+            return;
+          }
+
+          if (ev.key !== "Escape") return;
+          if (!els.entryModal.classList.contains("hidden")) {
+            closeModal();
+            return;
+          }
+          if (!els.chooseModal.classList.contains("hidden")) {
+            closeChooseModal();
+          }
+        });
+      }
+
+      function renderAll() {
+        activeWeekDates = buildWeekDates(currentMonday);
+        els.weekTitle.textContent = "KW " + getISOWeek(currentMonday);
+        renderBoard(activeWeekDates);
+      }
+
+      function seedDemoWeekIfEmpty() {
+        const monday = getMonday(currentMonday);
+        const demoKey = "plantafel-demo-seed-" + toISODate(monday);
+        if (localStorage.getItem(demoKey) === "1") return;
+
+        const d = (offset) => toISODate(addDays(monday, offset));
+
+        const add = (person, offset, type, text, trailer) => {
+          state.entries.push({
+            id: createId(),
+            person,
+            date: d(offset),
+            type,
+            text: text || "",
+            ws: false,
+            trailer: Boolean(trailer)
+          });
+        };
+
+        const addRange = (person, from, to, type, text, trailer) => {
+          for (let i = from; i <= to; i++) {
+            add(person, i, type, text, trailer);
+          }
+        };
+
+        addRange("MARTIN", 0, 5, "baustelle", "Theilmeier");
+        add("MARTIN", 0, "auto", "Sprinter Gr.");
+        add("MARTIN", 0, "auto", "Flach", true);
+        add("MARTIN", 1, "auto", "Sprinter Kl.");
+
+        addRange("LUDGER", 0, 4, "urlaub", "Urlaub");
+
+        addRange("JANNEK", 0, 2, "baustelle", "Machalica");
+        add("JANNEK", 0, "auto", "Sprinter Gr.");
+        add("JANNEK", 1, "auto", "CITAN");
+
+        addRange("VARIS", 0, 3, "baustelle", "Rutte");
+        add("VARIS", 0, "auto", "Sprinter Kl.");
+        add("VARIS", 2, "auto", "CITAN");
+
+        addRange("DAVID", 0, 4, "baustelle", "Loebker");
+        add("DAVID", 0, "auto", "CITAN");
+        add("DAVID", 1, "auto", "FORD");
+
+        addRange("BAYAR", 0, 3, "baustelle", "L. Reinsch");
+        add("BAYAR", 2, "auto", "VITO");
+
+        addRange("TORSTEN", 0, 4, "baustelle", "Schloss Charlotz");
+        add("TORSTEN", 0, "auto", "VITO");
+
+        addRange("FINIAN", 0, 3, "baustelle", "Machalica");
+        add("FINIAN", 3, "auto", "Sprinter Kl.");
+
+        addRange("NOAH", 0, 3, "baustelle", "Grosse Hovest");
+        add("NOAH", 2, "auto", "FORD");
+
+        addRange("FRIEDRICH", 0, 3, "werkstatt", "");
+
+        addRange("JONATHAN", 0, 4, "baustelle", "Auro-Online");
+
+        addRange("PATRICK", 1, 4, "baustelle", "Loebker");
+
+        addRange("TIMO", 0, 1, "schule", "Schule");
+        add("TIMO", 4, "baustelle", "Gaertner");
+
+        addRange("GIOSUE", 0, 4, "schule", "Schule");
+        add("GIOSUE", 2, "baustelle", "L. Reinsch");
+
+        addRange("ANNA", 0, 4, "schule", "Schule");
+
+        add("HARALD", 0, "werkstatt", "");
+        add("HARALD", 1, "urlaub", "Urlaub");
+        add("HARALD", 2, "werkstatt", "");
+        add("HARALD", 3, "urlaub", "Urlaub");
+        add("HARALD", 4, "werkstatt", "");
+
+        saveState();
+        localStorage.setItem(demoKey, "1");
+      }
+
+      function hasEntriesInWeek(monday) {
+        const weekDates = buildWeekDates(monday).map((d) => toISODate(d));
+        const weekSet = new Set(weekDates);
+        return state.entries.some((entry) => weekSet.has(entry.date));
+      }
+
+      function renderBoard(weekDates) {
+        const table = els.boardTable;
+        table.innerHTML = "";
+
+        const thead = document.createElement("thead");
+        const hrow = document.createElement("tr");
+
+        const staffHead = document.createElement("th");
+        staffHead.className = "staff-head";
+        staffHead.textContent = "Mitarbeiter";
+        hrow.appendChild(staffHead);
+
+        for (let i = 0; i < weekDates.length; i++) {
+          const th = document.createElement("th");
+          const headDateIso = toISODate(weekDates[i]);
+          if (headDateIso === TODAY_ISO) {
+            th.classList.add("today-col-head");
+          }
+          const dayDiv = document.createElement("div");
+          dayDiv.className = "day-head";
+
+          const day = document.createElement("div");
+          day.className = "day";
+          day.textContent = DAY_NAMES[i];
+
+          const date = document.createElement("div");
+          date.className = "date";
+          date.textContent = formatDate(weekDates[i]);
+
+          dayDiv.appendChild(day);
+          dayDiv.appendChild(date);
+          th.appendChild(dayDiv);
+          hrow.appendChild(th);
+        }
+
+        thead.appendChild(hrow);
+        table.appendChild(thead);
+
+        const tbody = document.createElement("tbody");
+
+        for (const person of state.people) {
+          const row = document.createElement("tr");
+
+          const staffCell = document.createElement("td");
+          staffCell.className = "staff-cell";
+          staffCell.textContent = person;
+          row.appendChild(staffCell);
+
+          for (const dateObj of weekDates) {
+            const dateIso = toISODate(dateObj);
+            const slot = document.createElement("td");
+            slot.className = "slot";
+            slot.tabIndex = 0;
+            slot.dataset.person = person;
+            slot.dataset.date = dateIso;
+            if (dateIso === TODAY_ISO) {
+              slot.classList.add("today-col");
+            }
+
+            slot.addEventListener("mousedown", (ev) => {
+              if (ev.button !== 0) return;
+              if (ev.target.closest(".card")) return;
+              clearSelectedEntry();
+              clearResizeState();
+              startSelection(person, dateIso);
+              ev.preventDefault();
+            });
+
+            slot.addEventListener("mouseenter", () => {
+              if (resizeState && resizeState.active) {
+                if (resizeState.person !== person) return;
+                if (resizeState.targetDate !== dateIso) {
+                  resizeState.targetDate = dateIso;
+                  resizeState.moved = true;
+                }
+                paintResizePreview();
+                return;
+              }
+              if (!dragSelection || !dragSelection.active) return;
+              if (dragSelection.person !== person) return;
+              dragSelection.endDate = dateIso;
+              paintSelection();
+            });
+
+            slot.addEventListener("dragover", (ev) => {
+              const entry = getDraggedEntry();
+              if (entry) {
+                ev.preventDefault();
+                if (ev.dataTransfer) {
+                  ev.dataTransfer.dropEffect = ev.ctrlKey ? "copy" : "move";
+                }
+              }
+            });
+
+            slot.addEventListener("drop", (ev) => {
+              ev.preventDefault();
+              const entry = getDraggedEntry();
+              dragEntryId = null;
+              if (!entry) return;
+              const isCopy = Boolean(ev.ctrlKey);
+              applyDragDropTransfer(entry, person, dateIso, isCopy);
+            });
+
+            const cards = document.createElement("div");
+            cards.className = "cards";
+
+            const entries = getEntriesForCell(person, dateIso);
+            const mainEntries = entries.filter((entry) => normalizeEntryType(entry.type) !== "auto");
+            const autoEntries = entries
+              .filter((entry) => normalizeEntryType(entry.type) === "auto")
+              .slice(0, MAX_AUTO_PER_DAY);
+
+            for (const entry of mainEntries) {
+              cards.appendChild(makeCard(entry));
+            }
+
+            if (!mainEntries.length) {
+              cards.appendChild(makeCard({
+                id: "virtual-" + person + "-" + dateIso,
+                person,
+                date: dateIso,
+                type: "ungeklaert",
+                text: "Ungeklaert",
+                ws: false,
+                derived: true
+              }));
+            }
+
+            if (autoEntries.length) {
+              const autoStack = document.createElement("div");
+              autoStack.className = "auto-stack";
+              for (const entry of autoEntries) {
+                autoStack.appendChild(makeCard(entry));
+              }
+              cards.appendChild(autoStack);
+            }
+
+            slot.appendChild(cards);
+            row.appendChild(slot);
+          }
+
+          tbody.appendChild(row);
+        }
+
+        table.appendChild(tbody);
+        restoreSelectedCard();
+      }
+
+      function startSelection(person, dateIso) {
+        dragSelection = {
+          active: true,
+          person,
+          startDate: dateIso,
+          endDate: dateIso
+        };
+        paintSelection();
+      }
+
+      function onGlobalMouseUp() {
+        if (resizeState && resizeState.active) {
+          finishResize();
+          return;
+        }
+        if (!dragSelection || !dragSelection.active) return;
+        const range = normalizeRange(dragSelection.startDate, dragSelection.endDate);
+        const person = dragSelection.person;
+        clearSelection();
+        openCreateModal(person, range.startDate, range.endDate);
+      }
+
+      function paintSelection() {
+        clearSelectionPaint();
+        if (!dragSelection || !dragSelection.active) return;
+
+        const range = normalizeRange(dragSelection.startDate, dragSelection.endDate);
+        const slots = document.querySelectorAll("td.slot");
+        for (const slot of slots) {
+          const samePerson = slot.dataset.person === dragSelection.person;
+          const date = slot.dataset.date;
+          if (samePerson && date >= range.startDate && date <= range.endDate) {
+            slot.classList.add("selected-range");
+          }
+        }
+      }
+
+      function clearSelectionPaint() {
+        const selected = document.querySelectorAll("td.slot.selected-range");
+        for (const slot of selected) {
+          slot.classList.remove("selected-range");
+        }
+      }
+
+      function clearResizePreview() {
+        const selected = document.querySelectorAll("td.slot.resize-preview");
+        for (const slot of selected) {
+          slot.classList.remove("resize-preview");
+        }
+        const ghosts = document.querySelectorAll(".resize-ghost");
+        for (const ghost of ghosts) {
+          ghost.remove();
+        }
+      }
+
+      function clearSelection() {
+        dragSelection = null;
+        clearSelectionPaint();
+      }
+
+      function clearResizeState() {
+        resizeState = null;
+        clearResizePreview();
+      }
+
+      function isTypingTarget(target) {
+        if (!target) return false;
+        const tag = target.tagName;
+        return tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || target.isContentEditable;
+      }
+
+      function setSelectedEntry(entryId, cardEl) {
+        clearSelectedEntry();
+        selectedEntryId = entryId;
+        selectedCardEl = cardEl;
+        if (selectedCardEl) {
+          selectedCardEl.classList.add("selected-card");
+        }
+      }
+
+      function clearSelectedEntry() {
+        if (selectedCardEl) {
+          selectedCardEl.classList.remove("selected-card");
+        }
+        selectedCardEl = null;
+        selectedEntryId = null;
+      }
+
+      function getComparableText(entry) {
+        const type = normalizeEntryType(entry.type);
+        if (type === "auto") return normalizeAutoText(entry.text || "");
+        if (type === "werkstatt") return "";
+        return (entry.text || "").trim();
+      }
+
+      function getEntrySignature(entry) {
+        return {
+          type: normalizeEntryType(entry.type),
+          text: getComparableText(entry),
+          trailer: isTrailerEntry(entry)
+        };
+      }
+
+      function isSameSignature(entry, signature) {
+        if (!entry || !signature) return false;
+        return normalizeEntryType(entry.type) === signature.type &&
+          getComparableText(entry) === signature.text &&
+          Boolean(isTrailerEntry(entry)) === Boolean(signature.trailer);
+      }
+
+      function findMatchingEntry(person, dateIso, signature) {
+        return state.entries.find((entry) =>
+          entry.person === person &&
+          entry.date === dateIso &&
+          isSameSignature(entry, signature)
+        ) || null;
+      }
+
+      function findContiguousRange(person, dateIso, signature) {
+        let startDate = dateIso;
+        let endDate = dateIso;
+
+        let cursor = parseDateInput(dateIso);
+        while (true) {
+          const prev = addDays(cursor, -1);
+          const prevIso = toISODate(prev);
+          if (!findMatchingEntry(person, prevIso, signature)) break;
+          startDate = prevIso;
+          cursor = prev;
+        }
+
+        cursor = parseDateInput(dateIso);
+        while (true) {
+          const next = addDays(cursor, 1);
+          const nextIso = toISODate(next);
+          if (!findMatchingEntry(person, nextIso, signature)) break;
+          endDate = nextIso;
+          cursor = next;
+        }
+
+        return { startDate, endDate };
+      }
+
+      function getResizePreviewRange() {
+        if (!resizeState || !resizeState.active) return null;
+        const source = resizeState.sourceRange;
+        const target = resizeState.targetDate;
+        if (resizeState.side === "left") {
+          const startDate = target <= source.endDate ? target : source.endDate;
+          return { startDate, endDate: source.endDate };
+        }
+        const endDate = target >= source.startDate ? target : source.startDate;
+        return { startDate: source.startDate, endDate };
+      }
+
+      function paintResizePreview() {
+        clearResizePreview();
+        const range = getResizePreviewRange();
+        if (!range || !resizeState) return;
+
+        const previewLabel = getSignatureLabel(resizeState.signature);
+        const slots = document.querySelectorAll("td.slot");
+        for (const slot of slots) {
+          if (slot.dataset.person !== resizeState.person) continue;
+          const date = slot.dataset.date;
+          if (date >= range.startDate && date <= range.endDate) {
+            slot.classList.add("resize-preview");
+
+            const ghost = document.createElement("div");
+            ghost.className = "resize-ghost " + resizeState.signature.type;
+            if (resizeState.signature.trailer) {
+              ghost.classList.add("anhaenger");
+            }
+            if (date !== range.startDate) {
+              ghost.classList.add("join-left");
+            }
+            if (date !== range.endDate) {
+              ghost.classList.add("join-right");
+            }
+            ghost.textContent = previewLabel;
+            slot.appendChild(ghost);
+          }
+        }
+      }
+
+      function startResize(entry, side) {
+        if (!entry || entry.derived || entry.type === "ungeklaert") return;
+        const signature = getEntrySignature(entry);
+        const sourceRange = findContiguousRange(entry.person, entry.date, signature);
+        const initialTarget = side === "left" ? sourceRange.startDate : sourceRange.endDate;
+        resizeState = {
+          active: true,
+          entryId: entry.id,
+          person: entry.person,
+          side,
+          sourceRange,
+          targetDate: initialTarget,
+          signature,
+          moved: false
+        };
+        paintResizePreview();
+      }
+
+      function removeEntriesBySignatureInRange(person, startIso, endIso, signature) {
+        const range = normalizeRange(startIso, endIso);
+        state.entries = state.entries.filter((entry) => {
+          if (entry.person !== person) return true;
+          if (entry.date < range.startDate || entry.date > range.endDate) return true;
+          return !isSameSignature(entry, signature);
+        });
+      }
+
+      function finishResize() {
+        if (!resizeState || !resizeState.active) return;
+
+        const preview = getResizePreviewRange();
+        const source = resizeState.sourceRange;
+        const person = resizeState.person;
+        const signature = resizeState.signature;
+        const moved = resizeState.moved;
+        clearResizeState();
+
+        if (!moved) return;
+        if (!preview) return;
+
+        const same = preview.startDate === source.startDate && preview.endDate === source.endDate;
+        if (same) return;
+
+        const union = normalizeRange(
+          source.startDate <= preview.startDate ? source.startDate : preview.startDate,
+          source.endDate >= preview.endDate ? source.endDate : preview.endDate
+        );
+        removeEntriesBySignatureInRange(person, union.startDate, union.endDate, signature);
+        addEntriesForRange(person, preview.startDate, preview.endDate, {
+          type: signature.type,
+          text: signature.text,
+          ws: false,
+          trailer: Boolean(signature.trailer)
+        });
+        saveState();
+        renderBoard(activeWeekDates);
+      }
+
+      function getSignatureLabel(signature) {
+        if (!signature) return "";
+        if (signature.type === "auto") return normalizeAutoText(signature.text || "");
+        return signature.text || typeFallbackLabel(signature.type);
+      }
+
+      function restoreSelectedCard() {
+        if (!selectedEntryId) return;
+        const card = document.querySelector('.card[data-entry-id=\"' + selectedEntryId + '\"]');
+        if (!card) {
+          clearSelectedEntry();
+          return;
+        }
+        selectedCardEl = card;
+        selectedCardEl.classList.add("selected-card");
+      }
+
+      function makeCard(entry) {
+        const card = document.createElement("div");
+        const isTrailer = isTrailerEntry(entry);
+        card.className = "card " + entry.type + (isTrailer ? " anhaenger" : "");
+
+        const label = normalizeEntryType(entry.type) === "auto"
+          ? (normalizeAutoText(entry.text || "") || typeFallbackLabel(entry.type))
+          : ((entry.text && entry.text.trim()) || typeFallbackLabel(entry.type));
+        card.textContent = label;
+
+        if (entry.derived && entry.type === "schule") {
+          const note = document.createElement("span");
+          note.className = "derived-note";
+          note.textContent = "Wdh.";
+          card.appendChild(note);
+        }
+
+        if (!entry.derived && entry.type !== "ungeklaert") {
+          card.dataset.entryId = entry.id;
+          card.draggable = true;
+          card.addEventListener("dragstart", () => {
+            clearResizeState();
+            dragEntryId = entry.id;
+          });
+          card.addEventListener("dragend", () => {
+            dragEntryId = null;
+          });
+
+          const leftHandle = document.createElement("button");
+          leftHandle.type = "button";
+          leftHandle.className = "resize-handle left";
+          leftHandle.title = "Start verschieben";
+          leftHandle.addEventListener("mousedown", (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            startResize(entry, "left");
+          });
+          card.appendChild(leftHandle);
+
+          const rightHandle = document.createElement("button");
+          rightHandle.type = "button";
+          rightHandle.className = "resize-handle right";
+          rightHandle.title = "Ende verschieben";
+          rightHandle.addEventListener("mousedown", (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            startResize(entry, "right");
+          });
+          card.appendChild(rightHandle);
+        }
+
+        card.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          if (entry.derived || entry.type === "ungeklaert") {
+            clearSelectedEntry();
+            openCreateModal(entry.person, entry.date, entry.date);
+            return;
+          }
+          setSelectedEntry(entry.id, card);
+        });
+
+        card.addEventListener("dblclick", (ev) => {
+          ev.stopPropagation();
+          if (entry.derived || entry.type === "ungeklaert") return;
+          openEditModal(entry.id);
+        });
+
+        return card;
+      }
+
+      function getDraggedEntry() {
+        if (!dragEntryId) return null;
+        return state.entries.find((entry) => entry.id === dragEntryId) || null;
+      }
+
+      function openCreateModal(person, startDate, endDate) {
+        clearSelectedEntry();
+        clearResizeState();
+        modalState = {
+          mode: "create",
+          person,
+          startDate,
+          endDate,
+          type: null,
+          trailer: false
+        };
+        openChooseModal(person, startDate, endDate);
+      }
+
+      function openEditModal(entryId) {
+        const entry = state.entries.find((e) => e.id === entryId);
+        if (!entry) return;
+
+        modalState = {
+          mode: "edit",
+          entryId: entry.id,
+          person: entry.person,
+          startDate: entry.date,
+          endDate: entry.date,
+          type: normalizeEntryType(entry.type),
+          trailer: isTrailerEntry(entry)
+        };
+
+        els.modalTitle.textContent = "Eintrag bearbeiten";
+        els.modalMeta.textContent = entry.person + " | " + formatDate(parseDateInput(entry.date));
+        els.modalText.value = normalizeEntryType(entry.type) === "werkstatt" ? "" : (entry.text || "");
+        applyFormForType(modalState.type, false);
+        els.modalDelete.style.display = "inline-block";
+        els.entryModal.classList.remove("hidden");
+        els.modalText.focus();
+      }
+
+      function closeModal() {
+        modalState = null;
+        clearResizeState();
+        closeChooseModal();
+        els.entryModal.classList.add("hidden");
+      }
+
+      function saveModal() {
+        if (!modalState || !modalState.type) return;
+        const selectedType = normalizeEntryType(modalState.type);
+        const rawText = (els.modalText.value || "").trim();
+        const payload = {
+          type: selectedType,
+          text: rawText,
+          ws: false,
+          trailer: selectedType === "auto" ? Boolean(modalState.trailer) : false
+        };
+
+        if (payload.type === "auto") {
+          payload.text = normalizeAutoText(payload.text);
+        }
+
+        if (payload.type === "baustelle" && !payload.text) {
+          alert("Bitte Kundenname eintragen.");
+          return;
+        }
+
+        if (payload.type === "werkstattkunde" && !payload.text) {
+          alert("Bitte Kundenname eintragen.");
+          return;
+        }
+
+        if (payload.type === "werkstatt") {
+          payload.text = "";
+        }
+
+        if (payload.type === "auto" && !payload.text) {
+          alert("Bitte Fahrzeug oder Anhaenger waehlen.");
+          return;
+        }
+
+        if (!payload.text) {
+          payload.text = typeFallbackLabel(payload.type);
+        }
+
+        if (modalState.mode === "edit") {
+          const entry = state.entries.find((e) => e.id === modalState.entryId);
+          if (!entry) {
+            closeModal();
+            return;
+          }
+
+          if (payload.type === "auto") {
+            const autoCountWithoutSelf = state.entries.filter((e) =>
+              e.id !== entry.id &&
+              e.person === entry.person &&
+              e.date === entry.date &&
+              normalizeEntryType(e.type) === "auto"
+            ).length;
+            if (autoCountWithoutSelf >= MAX_AUTO_PER_DAY) {
+              alert("Maximal 2 Fahrzeuge/Anhaenger pro Tag.");
+              return;
+            }
+          }
+
+          entry.type = payload.type;
+          entry.text = payload.text;
+          entry.ws = payload.ws;
+          entry.trailer = payload.trailer;
+          saveState();
+          renderBoard(activeWeekDates);
+          closeModal();
+          return;
+        }
+
+        addEntriesForRange(modalState.person, modalState.startDate, modalState.endDate, payload);
+        saveState();
+        renderBoard(activeWeekDates);
+        closeModal();
+      }
+
+      function deleteModalEntry() {
+        if (!modalState || modalState.mode !== "edit") return;
+        deleteEntryById(modalState.entryId);
+        closeModal();
+      }
+
+      function deleteEntryById(entryId) {
+        if (!entryId) return;
+        clearResizeState();
+        state.entries = state.entries.filter((entry) => entry.id !== entryId);
+        if (selectedEntryId === entryId) {
+          clearSelectedEntry();
+        }
+        saveState();
+        renderBoard(activeWeekDates);
+      }
+
+      function openChooseModal(person, startDate, endDate) {
+        chooseContext = { person, startDate, endDate };
+        els.chooseMeta.textContent = person + " | " + formatIsoRange(startDate, endDate);
+        els.chooseModal.classList.remove("hidden");
+      }
+
+      function closeChooseModal() {
+        chooseContext = null;
+        els.chooseModal.classList.add("hidden");
+      }
+
+      function onChooseTile(choice) {
+        if (!chooseContext || !modalState || modalState.mode !== "create") return;
+        modalState.type = normalizeEntryType(choice.type);
+        modalState.trailer = Boolean(choice.trailer);
+        modalState.person = chooseContext.person;
+        modalState.startDate = chooseContext.startDate;
+        modalState.endDate = chooseContext.endDate;
+
+        if (modalState.type !== "baustelle" && modalState.type !== "werkstattkunde") {
+          const directText = modalState.type === "werkstatt"
+            ? ""
+            : (choice.preset || typeFallbackLabel(modalState.type));
+          addEntriesForRange(modalState.person, modalState.startDate, modalState.endDate, {
+            type: modalState.type,
+            text: directText,
+            ws: false,
+            trailer: modalState.type === "auto" ? Boolean(modalState.trailer) : false
+          });
+          saveState();
+          renderBoard(activeWeekDates);
+          closeChooseModal();
+          return;
+        }
+
+        els.modalTitle.textContent = "Neuer Eintrag";
+        els.modalMeta.textContent = chooseContext.person + " | " + formatIsoRange(chooseContext.startDate, chooseContext.endDate);
+        els.modalDelete.style.display = "none";
+        applyFormForType(modalState.type, true, choice.preset || "");
+
+        closeChooseModal();
+        els.entryModal.classList.remove("hidden");
+        els.modalText.focus();
+      }
+
+      function onModalBack() {
+        if (modalState && modalState.mode === "create") {
+          els.entryModal.classList.add("hidden");
+          openChooseModal(modalState.person, modalState.startDate, modalState.endDate);
+          return;
+        }
+        closeModal();
+      }
+
+      function applyFormForType(type, isCreate, presetText) {
+        if (type === "baustelle" || type === "werkstattkunde") {
+          els.modalTextLabel.textContent = "Kundenname";
+          els.modalText.placeholder = "Kundenname";
+          els.modalText.value = isCreate ? "" : els.modalText.value;
+          return;
+        }
+
+        els.modalTextLabel.textContent = "Text";
+        els.modalText.placeholder = "Text";
+        if (isCreate) {
+          els.modalText.value = presetText || typeFallbackLabel(type);
+        }
+      }
+
+      function addEntriesForRange(person, startDate, endDate, payload) {
+        const effectivePayload = {
+          ...payload,
+          text: normalizeEntryType(payload.type) === "auto"
+            ? normalizeAutoText(payload.text || "")
+            : (payload.text || "")
+        };
+        let added = 0;
+        let skippedAutoLimit = 0;
+        let skippedDuplicate = 0;
+        const dates = listDatesBetween(startDate, endDate);
+        for (const date of dates) {
+          if (effectivePayload.type === "auto") {
+            const autoCount = state.entries.filter((entry) =>
+              entry.person === person &&
+              entry.date === date &&
+              normalizeEntryType(entry.type) === "auto"
+            ).length;
+
+            if (autoCount >= MAX_AUTO_PER_DAY) {
+              skippedAutoLimit += 1;
+              continue;
+            }
+          }
+
+          const duplicate = state.entries.find((entry) =>
+            entry.person === person &&
+            entry.date === date &&
+            normalizeEntryType(entry.type) === effectivePayload.type &&
+            (entry.text || "") === effectivePayload.text &&
+            Boolean(entry.ws) === Boolean(effectivePayload.ws) &&
+            Boolean(entry.trailer) === Boolean(effectivePayload.trailer)
+          );
+
+          if (duplicate) {
+            skippedDuplicate += 1;
+            continue;
+          }
+
+          state.entries.push({
+            id: createId(),
+            person,
+            date,
+            type: effectivePayload.type,
+            text: effectivePayload.text,
+            ws: effectivePayload.ws,
+            trailer: Boolean(effectivePayload.trailer)
+          });
+          added += 1;
+        }
+        return { added, skippedAutoLimit, skippedDuplicate };
+      }
+
+      function applyDragDropTransfer(sourceEntry, targetPerson, targetStartDate, isCopy) {
+        const signature = getEntrySignature(sourceEntry);
+        const sourceRange = findContiguousRange(sourceEntry.person, sourceEntry.date, signature);
+        const rangeDates = listDatesBetween(sourceRange.startDate, sourceRange.endDate);
+        if (!rangeDates.length) return;
+
+        const durationDays = rangeDates.length - 1;
+        const targetEndDate = toISODate(addDays(parseDateInput(targetStartDate), durationDays));
+
+        if (!isCopy &&
+          sourceEntry.person === targetPerson &&
+          sourceRange.startDate === targetStartDate &&
+          sourceRange.endDate === targetEndDate) {
+          return;
+        }
+
+        const snapshot = state.entries.slice();
+        const normalizedType = normalizeEntryType(sourceEntry.type);
+        const payload = {
+          type: normalizedType,
+          text: normalizedType === "auto" ? normalizeAutoText(sourceEntry.text || "") : (sourceEntry.text || ""),
+          ws: Boolean(sourceEntry.ws),
+          trailer: Boolean(sourceEntry.trailer)
+        };
+
+        if (!isCopy) {
+          removeEntriesBySignatureInRange(sourceEntry.person, sourceRange.startDate, sourceRange.endDate, signature);
+        }
+
+        const result = addEntriesForRange(targetPerson, targetStartDate, targetEndDate, payload);
+
+        if (!isCopy && result.skippedAutoLimit > 0) {
+          state.entries = snapshot;
+          alert("Verschieben nicht moeglich: Am Ziel sind fuer Auto/Anhaenger bereits zu viele Eintraege.");
+          return;
+        }
+
+        saveState();
+        renderBoard(activeWeekDates);
+      }
+
+      function getEntriesForCell(person, dateIso) {
+        const baseEntries = state.entries
+          .filter((entry) => entry.person === person && entry.date === dateIso)
+          .map((entry) => ({
+            ...entry,
+            type: normalizeEntryType(entry.type)
+          }));
+
+        const date = parseDateInput(dateIso);
+        const jsDay = date.getDay();
+        const schoolDays = state.schoolPattern[person] || [];
+        const hasSchoolEntry = baseEntries.some((e) => e.type === "schule");
+
+        if (schoolDays.includes(jsDay) && !hasSchoolEntry) {
+          baseEntries.push({
+            id: "school-" + person + "-" + dateIso,
+            person,
+            date: dateIso,
+            type: "schule",
+            text: "Schule",
+            ws: false,
+            derived: true
+          });
+        }
+
+        return sortEntries(baseEntries);
+      }
+
+      function sortEntries(entries) {
+        const order = {
+          urlaub: 1,
+          krank: 2,
+          werkstatt: 3,
+          werkstattkunde: 4,
+          schule: 5,
+          baustelle: 6,
+          auto: 7,
+          ungeklaert: 8
+        };
+
+        return entries.slice().sort((a, b) => {
+          const av = order[normalizeEntryType(a.type)] || 99;
+          const bv = order[normalizeEntryType(b.type)] || 99;
+          return av - bv;
+        });
+      }
+
+      function normalizeEntryType(type) {
+        if (type === "kunde") return "baustelle";
+        if (type === "werkstatt_kunde") return "werkstattkunde";
+        return type;
+      }
+
+      function normalizeAutoText(text) {
+        const cleaned = (text || "").trim();
+        return cleaned.replace(/^anhaenger\s+/i, "").trim();
+      }
+
+      function isTrailerEntry(entry) {
+        if (!entry || normalizeEntryType(entry.type) !== "auto") return false;
+        if (typeof entry.trailer === "boolean") return entry.trailer;
+        return TRAILER_NAMES.has(normalizeAutoText(entry.text || ""));
+      }
+
+      function typeFallbackLabel(type) {
+        const t = normalizeEntryType(type);
+        switch (t) {
+          case "urlaub": return "Urlaub";
+          case "krank": return "Krank";
+          case "baustelle": return "Baustelle";
+          case "werkstatt": return "Werkstatt";
+          case "werkstattkunde": return "Werkstatt";
+          case "auto": return "Auto";
+          case "schule": return "Schule";
+          default: return "Ungeklaert";
+        }
+      }
+
+      function loadState() {
+        try {
+          const rawV3 = localStorage.getItem(STORAGE_KEY);
+          if (rawV3) {
+            return mergeWithDefaults(JSON.parse(rawV3));
+          }
+
+          const rawV2 = localStorage.getItem("plantafel-v2");
+          if (rawV2) {
+            const migrated = mergeWithDefaults(JSON.parse(rawV2));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+            return migrated;
+          }
+
+          const rawV1 = localStorage.getItem("plantafel-v1");
+          if (rawV1) {
+            const migrated = mergeWithDefaults(JSON.parse(rawV1));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+            return migrated;
+          }
+
+          return structuredClone(defaultState);
+        } catch (_err) {
+          return structuredClone(defaultState);
+        }
+      }
+
+      function mergeWithDefaults(parsed) {
+        const safe = structuredClone(defaultState);
+
+        if (Array.isArray(parsed.people) && parsed.people.length) {
+          safe.people = parsed.people.filter(Boolean);
+        }
+
+        if (Array.isArray(parsed.apprentices)) {
+          safe.apprentices = parsed.apprentices.filter((p) => safe.people.includes(p));
+        }
+
+        if (parsed.schoolPattern && typeof parsed.schoolPattern === "object") {
+          safe.schoolPattern = {};
+          for (const [name, days] of Object.entries(parsed.schoolPattern)) {
+            if (!safe.people.includes(name) || !Array.isArray(days)) continue;
+            safe.schoolPattern[name] = days
+              .map((d) => Number(d))
+              .filter((d) => WEEKDAY_INDEX.includes(d));
+          }
+        }
+
+        if (Array.isArray(parsed.entries)) {
+          safe.entries = parsed.entries
+            .filter((entry) => entry && safe.people.includes(entry.person))
+            .map((entry) => {
+              const normalizedType = normalizeEntryType(entry.type);
+              const trailer = normalizedType === "auto"
+                ? (typeof entry.trailer === "boolean"
+                  ? entry.trailer
+                  : TRAILER_NAMES.has(normalizeAutoText(entry.text || "")))
+                : false;
+              return {
+                id: entry.id || createId(),
+                person: entry.person,
+                date: entry.date,
+                type: normalizedType,
+                text: normalizedType === "werkstatt"
+                  ? ""
+                  : (normalizedType === "auto" ? normalizeAutoText(entry.text || "") : (entry.text || "")),
+                ws: false,
+                trailer
+              };
+            })
+            .filter((entry) => entry.date && entry.type);
+        }
+
+        return safe;
+      }
+
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function buildWeekDates(monday) {
+        const days = [];
+        for (let i = 0; i < 6; i++) {
+          days.push(addDays(monday, i));
+        }
+        return days;
+      }
+
+      function getMonday(date) {
+        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        const day = d.getDay() || 7;
+        d.setDate(d.getDate() - day + 1);
+        return d;
+      }
+
+      function addDays(date, days) {
+        const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        d.setDate(d.getDate() + days);
+        return d;
+      }
+
+      function toISODate(date) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        const d = String(date.getDate()).padStart(2, "0");
+        return y + "-" + m + "-" + d;
+      }
+
+      function parseDateInput(value) {
+        if (!value) return null;
+        const [y, m, d] = value.split("-").map(Number);
+        if (!y || !m || !d) return null;
+        return new Date(y, m - 1, d);
+      }
+
+      function formatDate(date) {
+        const d = String(date.getDate()).padStart(2, "0");
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        return d + "." + m + "." + date.getFullYear();
+      }
+
+      function formatIsoRange(startIso, endIso) {
+        if (startIso === endIso) {
+          return formatDate(parseDateInput(startIso));
+        }
+        return formatDate(parseDateInput(startIso)) + " - " + formatDate(parseDateInput(endIso));
+      }
+
+      function getISOWeek(date) {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+      }
+
+      function normalizeRange(dateA, dateB) {
+        return dateA <= dateB
+          ? { startDate: dateA, endDate: dateB }
+          : { startDate: dateB, endDate: dateA };
+      }
+
+      function listDatesBetween(startIso, endIso) {
+        const range = normalizeRange(startIso, endIso);
+        const start = parseDateInput(range.startDate);
+        const end = parseDateInput(range.endDate);
+        const dates = [];
+
+        const d = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+        while (d <= end) {
+          if (d.getDay() !== 0) {
+            dates.push(toISODate(d));
+          }
+          d.setDate(d.getDate() + 1);
+        }
+
+        return dates;
+      }
+
+      function createId() {
+        return "id-" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+      }
+    })();
+  </script>
+</body>
+</html>
