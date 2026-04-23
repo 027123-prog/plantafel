@@ -777,15 +777,24 @@
 
       async function bootstrapFromServer() {
         try {
-          const response = await fetch(REMOTE_STATE_ENDPOINT, { cache: "no-store" });
-          if (!response.ok) return;
-          const payload = await response.json();
-          if (!payload || !payload.state) return;
-          state = mergeWithDefaults(payload.state);
+          const remoteState = await fetchRemoteState(REMOTE_STATE_ENDPOINT)
+            || await fetchRemoteState("data/plantafel_state.json");
+          if (!remoteState) return;
+          state = mergeWithDefaults(remoteState);
           persistLocalStateOnly();
         } catch (_err) {
           // If the app is opened as file:// or server is offline, localStorage continues to work.
         }
+      }
+
+      async function fetchRemoteState(url) {
+        const response = await fetch(url, { cache: "no-store" });
+        if (!response.ok) return null;
+        const payload = await response.json();
+        if (!payload || typeof payload !== "object" || Array.isArray(payload)) return null;
+        const remoteState = payload.state && typeof payload.state === "object" ? payload.state : payload;
+        if (!remoteState || typeof remoteState !== "object" || Array.isArray(remoteState)) return null;
+        return remoteState;
       }
 
       function renderAll() {

@@ -1,1 +1,1077 @@
-{}
+{
+  "people": [
+    "MARTIN",
+    "LUDGER",
+    "STEPHAN",
+    "JANNEK",
+    "VARIS",
+    "DAVID",
+    "BAYAR",
+    "TORSTEN",
+    "FINIAN",
+    "NOAH",
+    "FRIEDRICH",
+    "JONATHAN",
+    "PATRICK",
+    "TIMO",
+    "GIOSUE",
+    "ANNA",
+    "HARALD",
+    "KAI",
+    "PRAKTIKANT"
+  ],
+  "apprentices": [
+    "TIMO",
+    "GIOSUE",
+    "ANNA",
+    "HARALD",
+    "KAI",
+    "PRAKTIKANT"
+  ],
+  "schoolPattern": {
+    "TIMO": [
+      1
+    ],
+    "GIOSUE": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ANNA": [
+      1
+    ],
+    "HARALD": [],
+    "KAI": [],
+    "PRAKTIKANT": []
+  },
+  "entries": [
+    {
+      "id": "kw17-martin-2026-04-20-urlaub",
+      "person": "MARTIN",
+      "date": "2026-04-20",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-martin-2026-04-21-urlaub",
+      "person": "MARTIN",
+      "date": "2026-04-21",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-martin-2026-04-22-urlaub",
+      "person": "MARTIN",
+      "date": "2026-04-22",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-martin-2026-04-23-urlaub",
+      "person": "MARTIN",
+      "date": "2026-04-23",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-martin-2026-04-24-urlaub",
+      "person": "MARTIN",
+      "date": "2026-04-24",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-ludger-2026-04-20-urlaub",
+      "person": "LUDGER",
+      "date": "2026-04-20",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-ludger-2026-04-21-urlaub",
+      "person": "LUDGER",
+      "date": "2026-04-21",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-ludger-2026-04-22-urlaub",
+      "person": "LUDGER",
+      "date": "2026-04-22",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-ludger-2026-04-23-urlaub",
+      "person": "LUDGER",
+      "date": "2026-04-23",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-ludger-2026-04-24-stadt-muenster",
+      "person": "LUDGER",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Stadt Muenster",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-20-l-reinsch",
+      "person": "STEPHAN",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-21-l-reinsch",
+      "person": "STEPHAN",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-21-sprinter-gross",
+      "person": "STEPHAN",
+      "date": "2026-04-21",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-21-fertigung",
+      "person": "STEPHAN",
+      "date": "2026-04-21",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-22-l-reinsch",
+      "person": "STEPHAN",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-22-sprinter-gross",
+      "person": "STEPHAN",
+      "date": "2026-04-22",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-22-fertigung",
+      "person": "STEPHAN",
+      "date": "2026-04-22",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-23-l-reinsch",
+      "person": "STEPHAN",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-23-sprinter-gross",
+      "person": "STEPHAN",
+      "date": "2026-04-23",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-23-fertigung",
+      "person": "STEPHAN",
+      "date": "2026-04-23",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-stephan-2026-04-24-urlaub",
+      "person": "STEPHAN",
+      "date": "2026-04-24",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-20-theilmeier",
+      "person": "JANNEK",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Theilmeier",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-20-citan",
+      "person": "JANNEK",
+      "date": "2026-04-20",
+      "type": "auto",
+      "text": "CITAN",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-21-gaertner",
+      "person": "JANNEK",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Gaertner",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-21-fertigung",
+      "person": "JANNEK",
+      "date": "2026-04-21",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-22-gaertner",
+      "person": "JANNEK",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Gaertner",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-22-fertigung",
+      "person": "JANNEK",
+      "date": "2026-04-22",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-24-theilmeier",
+      "person": "JANNEK",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Theilmeier",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jannek-2026-04-24-sprinter-gross",
+      "person": "JANNEK",
+      "date": "2026-04-24",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-20-rutte",
+      "person": "VARIS",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Rutte",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-21-rutte",
+      "person": "VARIS",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Rutte",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-21-sprinter-klein",
+      "person": "VARIS",
+      "date": "2026-04-21",
+      "type": "auto",
+      "text": "Sprinter Kl.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-22-coolen-keller",
+      "person": "VARIS",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Coolen Keller",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-22-sprinter-klein",
+      "person": "VARIS",
+      "date": "2026-04-22",
+      "type": "auto",
+      "text": "Sprinter Kl.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-23-coolen-keller",
+      "person": "VARIS",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Coolen Keller",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-23-sprinter-klein",
+      "person": "VARIS",
+      "date": "2026-04-23",
+      "type": "auto",
+      "text": "Sprinter Kl.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-24-coolen-keller",
+      "person": "VARIS",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Coolen Keller",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-varis-2026-04-24-sprinter-klein",
+      "person": "VARIS",
+      "date": "2026-04-24",
+      "type": "auto",
+      "text": "Sprinter Kl.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-20-luebker",
+      "person": "DAVID",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-20-sprinter-gross",
+      "person": "DAVID",
+      "date": "2026-04-20",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-21-luebker",
+      "person": "DAVID",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-21-citan",
+      "person": "DAVID",
+      "date": "2026-04-21",
+      "type": "auto",
+      "text": "CITAN",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-22-luebker",
+      "person": "DAVID",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-22-citan",
+      "person": "DAVID",
+      "date": "2026-04-22",
+      "type": "auto",
+      "text": "CITAN",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-23-luebker",
+      "person": "DAVID",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-23-vito",
+      "person": "DAVID",
+      "date": "2026-04-23",
+      "type": "auto",
+      "text": "VITO",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-24-luebker",
+      "person": "DAVID",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-david-2026-04-24-vito",
+      "person": "DAVID",
+      "date": "2026-04-24",
+      "type": "auto",
+      "text": "VITO",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-bayar-2026-04-20-l-reinsch",
+      "person": "BAYAR",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-bayar-2026-04-21-l-reinsch",
+      "person": "BAYAR",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-bayar-2026-04-22-l-reinsch",
+      "person": "BAYAR",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-bayar-2026-04-23-l-reinsch",
+      "person": "BAYAR",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "L. Reinsch",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-bayar-2026-04-24-urlaub",
+      "person": "BAYAR",
+      "date": "2026-04-24",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-20-schloss-clarholz",
+      "person": "TORSTEN",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Schloss Clarholz",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-20-vito",
+      "person": "TORSTEN",
+      "date": "2026-04-20",
+      "type": "auto",
+      "text": "VITO",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-20-fertigung",
+      "person": "TORSTEN",
+      "date": "2026-04-20",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-21-schloss-clarholz",
+      "person": "TORSTEN",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Schloss Clarholz",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-21-vito",
+      "person": "TORSTEN",
+      "date": "2026-04-21",
+      "type": "auto",
+      "text": "VITO",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-21-fertigung",
+      "person": "TORSTEN",
+      "date": "2026-04-21",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-22-schloss-clarholz",
+      "person": "TORSTEN",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Schloss Clarholz",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-22-vito",
+      "person": "TORSTEN",
+      "date": "2026-04-22",
+      "type": "auto",
+      "text": "VITO",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-22-fertigung",
+      "person": "TORSTEN",
+      "date": "2026-04-22",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-23-urlaub",
+      "person": "TORSTEN",
+      "date": "2026-04-23",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-torsten-2026-04-24-urlaub",
+      "person": "TORSTEN",
+      "date": "2026-04-24",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-finian-2026-04-20-machalica",
+      "person": "FINIAN",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Machalica",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-finian-2026-04-21-machalica",
+      "person": "FINIAN",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Machalica",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-finian-2026-04-22-machalica",
+      "person": "FINIAN",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Machalica",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-finian-2026-04-23-machalica",
+      "person": "FINIAN",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Machalica",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-finian-2026-04-24-machalica",
+      "person": "FINIAN",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Machalica / Van Dorst",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-noah-2026-04-20-schloss-clarholz",
+      "person": "NOAH",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Schloss Clarholz",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-noah-2026-04-21-schloss-clarholz",
+      "person": "NOAH",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Schloss Clarholz",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-noah-2026-04-22-grosse-hovest",
+      "person": "NOAH",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Grosse Hovest",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-noah-2026-04-22-ford",
+      "person": "NOAH",
+      "date": "2026-04-22",
+      "type": "auto",
+      "text": "FORD",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-noah-2026-04-23-urlaub",
+      "person": "NOAH",
+      "date": "2026-04-23",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-noah-2026-04-24-urlaub",
+      "person": "NOAH",
+      "date": "2026-04-24",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-friedrich-2026-04-20-ungeklaert",
+      "person": "FRIEDRICH",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "noch ungeklaert",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-friedrich-2026-04-21-ungeklaert",
+      "person": "FRIEDRICH",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "noch ungeklaert",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-friedrich-2026-04-22-coolen-keller",
+      "person": "FRIEDRICH",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Coolen Keller",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-friedrich-2026-04-23-coolen-keller",
+      "person": "FRIEDRICH",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Coolen Keller",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-friedrich-2026-04-24-coolen-keller",
+      "person": "FRIEDRICH",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Coolen Keller",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-20-auro-online",
+      "person": "JONATHAN",
+      "date": "2026-04-20",
+      "type": "baustelle",
+      "text": "Auro-Online",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-21-frigge",
+      "person": "JONATHAN",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Frigge",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-21-sprinter-gross",
+      "person": "JONATHAN",
+      "date": "2026-04-21",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-22-frigge",
+      "person": "JONATHAN",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Frigge",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-22-sprinter-gross",
+      "person": "JONATHAN",
+      "date": "2026-04-22",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-23-niehues",
+      "person": "JONATHAN",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Niehues",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-23-sprinter-gross",
+      "person": "JONATHAN",
+      "date": "2026-04-23",
+      "type": "auto",
+      "text": "Sprinter Gr.",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-jonathan-2026-04-24-auro-online",
+      "person": "JONATHAN",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Auro-Online",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-patrick-2026-04-20-krank",
+      "person": "PATRICK",
+      "date": "2026-04-20",
+      "type": "krank",
+      "text": "Krank",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-patrick-2026-04-21-luebker",
+      "person": "PATRICK",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-patrick-2026-04-22-luebker",
+      "person": "PATRICK",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-patrick-2026-04-23-luebker",
+      "person": "PATRICK",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-patrick-2026-04-24-luebker",
+      "person": "PATRICK",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Luebker",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-20-schule",
+      "person": "TIMO",
+      "date": "2026-04-20",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-21-werkstatt",
+      "person": "TIMO",
+      "date": "2026-04-21",
+      "type": "werkstatt",
+      "text": "",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-22-grosse-hovest",
+      "person": "TIMO",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Grosse Hovest",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-23-kreisel-kiste",
+      "person": "TIMO",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Kreisel Kiste",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-23-fertigung",
+      "person": "TIMO",
+      "date": "2026-04-23",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-24-kreisel-kiste",
+      "person": "TIMO",
+      "date": "2026-04-24",
+      "type": "baustelle",
+      "text": "Kreisel Kiste",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-timo-2026-04-24-fertigung",
+      "person": "TIMO",
+      "date": "2026-04-24",
+      "type": "werkstattkunde",
+      "text": "Fertigung",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-giosue-2026-04-20-schule",
+      "person": "GIOSUE",
+      "date": "2026-04-20",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-giosue-2026-04-21-schule",
+      "person": "GIOSUE",
+      "date": "2026-04-21",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-giosue-2026-04-22-schule",
+      "person": "GIOSUE",
+      "date": "2026-04-22",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-giosue-2026-04-23-schule",
+      "person": "GIOSUE",
+      "date": "2026-04-23",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-giosue-2026-04-24-schule",
+      "person": "GIOSUE",
+      "date": "2026-04-24",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-anna-2026-04-20-schule",
+      "person": "ANNA",
+      "date": "2026-04-20",
+      "type": "schule",
+      "text": "Schule",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-anna-2026-04-21-frigge",
+      "person": "ANNA",
+      "date": "2026-04-21",
+      "type": "baustelle",
+      "text": "Frigge",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-anna-2026-04-22-frigge",
+      "person": "ANNA",
+      "date": "2026-04-22",
+      "type": "baustelle",
+      "text": "Frigge",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-anna-2026-04-23-niehues",
+      "person": "ANNA",
+      "date": "2026-04-23",
+      "type": "baustelle",
+      "text": "Niehues",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-harald-2026-04-20-werkstatt",
+      "person": "HARALD",
+      "date": "2026-04-20",
+      "type": "werkstatt",
+      "text": "",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-harald-2026-04-21-urlaub",
+      "person": "HARALD",
+      "date": "2026-04-21",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-harald-2026-04-22-werkstatt",
+      "person": "HARALD",
+      "date": "2026-04-22",
+      "type": "werkstatt",
+      "text": "",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-harald-2026-04-23-urlaub",
+      "person": "HARALD",
+      "date": "2026-04-23",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    },
+    {
+      "id": "kw17-harald-2026-04-24-urlaub",
+      "person": "HARALD",
+      "date": "2026-04-24",
+      "type": "urlaub",
+      "text": "Urlaub",
+      "ws": false,
+      "trailer": false
+    }
+  ]
+}
