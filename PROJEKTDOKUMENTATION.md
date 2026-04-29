@@ -178,7 +178,8 @@ Ausloeser:
 
 Entscheidung:
 
-- Render Starter Web Service als naechster Hosting-Schritt.
+- Render Free Web Service als erster Hosting-Test.
+- Spaeter Render Starter fuer dauerhaften Betrieb ohne Einschlafen.
 - Supabase bleibt Datenbank.
 - GitHub bleibt Code-Quelle und triggert Render-Deploys.
 
@@ -186,7 +187,7 @@ Umsetzung:
 
 - `render.yaml` angelegt.
 - Python-Webservice `plantafel` definiert.
-- Region `frankfurt`, Plan `starter`, Start via `gunicorn app:app --bind 0.0.0.0:$PORT`.
+- Region `frankfurt`, Plan `free`, Start via `gunicorn app:app --bind 0.0.0.0:$PORT`.
 - `SUPABASE_SERVICE_ROLE_KEY` und `GITHUB_TOKEN` sind als `sync: false` markiert und werden nicht ins Repo geschrieben.
 - `DEPLOYMENT.md` um Render-Hinweise erweitert.
 

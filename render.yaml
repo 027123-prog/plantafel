@@ -2,7 +2,7 @@ services:
   - type: web
     name: plantafel
     runtime: python
-    plan: starter
+    plan: free
     region: frankfurt
     branch: main
     buildCommand: pip install -r requirements.txt

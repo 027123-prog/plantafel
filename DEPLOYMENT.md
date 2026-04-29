@@ -48,7 +48,7 @@ Die Datei `render.yaml` beschreibt den Service:
 ```text
 Name: plantafel
 Runtime: Python
-Plan: Starter
+Plan: Free fuer den ersten Test, spaeter Starter fuer dauerhaften Betrieb ohne Einschlafen
 Region: Frankfurt
 Build Command: pip install -r requirements.txt
 Start Command: gunicorn app:app --bind 0.0.0.0:$PORT
