@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: plantafel
+    runtime: python
+    plan: starter
+    region: frankfurt
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    healthCheckPath: /api/state
+    autoDeployTrigger: commit
+    envVars:
+      - key: SUPABASE_ENABLED
+        value: "1"
+      - key: SUPABASE_URL
+        value: https://tocayvbnygkkhwvhhgow.supabase.co
+      - key: SUPABASE_PROJECT_ID
+        value: tocayvbnygkkhwvhhgow
+      - key: SUPABASE_PUBLISHABLE_KEY
+        value: sb_publishable_3bGCEvb_q5ketEmdW7spZA_OQexSorJ
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: AUTO_SYNC_GITHUB
+        value: "0"
+      - key: GITHUB_TOKEN
+        sync: false

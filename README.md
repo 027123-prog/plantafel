@@ -1,7 +1,8 @@
-# Plantafel mit Autosave und GitHub-Sync
+# Plantafel mit Supabase-Speicher
 
 Diese Plantafel laeuft im Browser und speichert den aktuellen Stand ueber eine kleine Flask-API.
-Optional schreibt die API bei jeder Speicherung zusaetzlich nach GitHub.
+Die API liest und schreibt den Plantafel-Stand in Supabase/Postgres. Die lokale JSON-Datei bleibt als Backup/Fallback erhalten.
+Optional kann die API bei jeder Speicherung zusaetzlich nach GitHub schreiben.
 
 Repository:
 
@@ -23,7 +24,22 @@ Danach im Browser oeffnen:
 http://127.0.0.1:5055
 ```
 
-## GitHub-Sync aktivieren
+## Supabase aktivieren
+
+Die echten Supabase-Zugangsdaten gehoeren in `.env` und duerfen nicht nach GitHub.
+
+```powershell
+SUPABASE_ENABLED=1
+SUPABASE_URL=https://tocayvbnygkkhwvhhgow.supabase.co
+SUPABASE_PROJECT_ID=tocayvbnygkkhwvhhgow
+SUPABASE_PUBLISHABLE_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+python app.py
+```
+
+Wichtig: `SUPABASE_SERVICE_ROLE_KEY` ist geheim und darf nie in `index.html`, Commits oder Screenshots stehen.
+
+## GitHub-Sync optional aktivieren
 
 Fuer Schreibzugriff nach GitHub braucht die API einen GitHub Personal Access Token mit `Contents: Read and write`.
 Der Token darf nie in `index.html`, in Commits oder in GitHub Pages gespeichert werden.
@@ -48,6 +64,6 @@ data/plantafel_state.json
 ## Smartphone und mehrere Nutzer
 
 Fuer Zugriff per Smartphone oder von mehreren Browsern muss `app.py` auf einem erreichbaren Server laufen.
-GitHub Pages allein reicht nicht aus, weil der geheime GitHub-Token sonst im Browser sichtbar waere.
+GitHub Pages allein reicht nicht aus, weil geheime Server-Schluessel sonst im Browser sichtbar waeren.
 
 Weitere Hinweise stehen in `DEPLOYMENT.md`.
